@@ -1,0 +1,46 @@
+---
+import '../styles/global.css';
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR, url } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const { title, description = SITE_DESCRIPTION } = Astro.props;
+const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={url('rss.xml')} />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+  </head>
+  <body>
+    <header class="site">
+      <div class="container">
+        <a class="brand" href={url()}>{SITE_TITLE}</a>
+        <nav>
+          <a href={url()}>글</a>
+          <a href={url('about/')}>소개</a>
+          <a href={url('rss.xml')}>RSS</a>
+        </nav>
+      </div>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="site">
+      <div class="container">© {new Date().getFullYear()} {AUTHOR} · <a href="https://github.com/hsc142857/blogpilot">GitHub</a></div>
+    </footer>
+  </body>
+</html>

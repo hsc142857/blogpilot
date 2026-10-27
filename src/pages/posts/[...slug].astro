@@ -1,0 +1,24 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { getPosts, formatDate } from '../../lib';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+<Base title={post.data.title} description={post.data.description}>
+  <article>
+    <h1>{post.data.title}</h1>
+    <div class="meta">
+      <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+      {post.data.updatedDate && <> · 수정 {formatDate(post.data.updatedDate)}</>}
+      {post.data.tags.map((t) => <span class="tag">{t}</span>)}
+    </div>
+    <div class="prose"><Content /></div>
+  </article>
+</Base>
