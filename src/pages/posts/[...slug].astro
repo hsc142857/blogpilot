@@ -1,6 +1,7 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Comments from '../../components/Comments.astro';
 import { getPosts, formatDate } from '../../lib';
 
 export async function getStaticPaths() {
@@ -21,4 +22,5 @@ const { Content } = await render(post);
     </div>
     <div class="prose"><Content /></div>
   </article>
+  <Comments />
 </Base>

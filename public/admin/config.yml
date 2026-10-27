@@ -1,0 +1,55 @@
+# Sveltia CMS 설정 — 저장하면 GitHub 저장소에 커밋되고 Actions가 자동 배포한다.
+backend:
+  name: github
+  repo: hsc142857/blogpilot
+  branch: main
+  commit_messages:
+    create: '글 작성: {{slug}}'
+    update: '글 수정: {{slug}}'
+    delete: '글 삭제: {{slug}}'
+    uploadMedia: '이미지 업로드: {{path}}'
+    deleteMedia: '이미지 삭제: {{path}}'
+
+site_url: https://hsc142857.github.io/blogpilot/
+display_url: https://hsc142857.github.io/blogpilot/
+locale: ko
+
+media_folder: public/images/uploads
+public_folder: /blogpilot/images/uploads
+
+collections:
+  - name: blog
+    label: 글
+    label_singular: 글
+    folder: src/content/blog
+    create: true
+    delete: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    preview_path: 'posts/{{slug}}/'
+    summary: '{{title}} · {{pubDate}}'
+    sortable_fields:
+      fields: [pubDate, title]
+      default: { field: pubDate, direction: descending }
+    view_filters:
+      - { label: 초안, field: draft, pattern: true }
+      - { label: 공개, field: draft, pattern: false }
+    fields:
+      - { name: title, label: 제목, widget: string }
+      - { name: description, label: 요약, widget: string }
+      - name: pubDate
+        label: 작성일
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: YYYY-MM-DD
+        time_format: false
+        default: '{{now}}'
+      - name: updatedDate
+        label: 수정일
+        widget: datetime
+        format: YYYY-MM-DD
+        date_format: YYYY-MM-DD
+        time_format: false
+        required: false
+      - { name: tags, label: 태그, widget: list, required: false, default: [] }
+      - { name: draft, label: 초안(비공개), widget: boolean, default: false }
+      - { name: body, label: 본문, widget: markdown }
