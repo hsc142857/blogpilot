@@ -15,6 +15,21 @@ GitHub Pages로 운영하는 개인 블로그. Astro로 만들고, 글은 웹 �
 | 토큰 관리 | https://github.com/settings/personal-access-tokens |
 | giscus 앱 설정 | https://github.com/settings/installations |
 
+## 기술 스택
+
+| 구분 | 기술 | 버전 | 역할 |
+| --- | --- | --- | --- |
+| 사이트 생성 | [Astro](https://astro.build) | 7.4.2 | Markdown 글을 정적 HTML로 빌드 (빌드 도구 Vite 8) |
+| 글 형식 | Markdown + Content Collections | — | 글 머리말을 Zod 4 스키마로 검증 (`src/content.config.ts`) |
+| RSS / 사이트맵 | `@astrojs/rss`, `@astrojs/sitemap` | 4.0.19 / 3.7.4 | `rss.xml`, `sitemap-index.xml` 생성 |
+| 글 관리 | [Sveltia CMS](https://github.com/sveltia/sveltia-cms) | 0.253.1 | `/admin/` 웹 관리자. GitHub API로 저장소에 직접 커밋 (서버 없음) |
+| 댓글 | [giscus](https://giscus.app) | — | GitHub Discussions 기반 댓글·반응 |
+| 배포 | GitHub Actions | `withastro/action@v6`, `actions/deploy-pages@v5` | main에 push되면 빌드 → 배포 |
+| 호스팅 | GitHub Pages | — | 정적 사이트 무료 호스팅 (공개 저장소) |
+| 스타일 | 순수 CSS | — | 라이트/다크 모드 자동 전환, 별도 CSS 프레임워크 없음 |
+
+동작 흐름: 관리자 화면에서 저장 → GitHub 저장소에 커밋 → GitHub Actions가 Astro 빌드 → GitHub Pages 배포 → 방문자 댓글은 GitHub Discussions에 저장
+
 ## 글 관리
 
 ### 로그인
