@@ -8,7 +8,8 @@ const blog = defineCollection({
     title: z.string(),
     description: z.string(),
     pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
+    // CMS가 비워 둔 날짜를 ''로 저장하므로 빈 값은 없는 것으로 처리한다.
+    updatedDate: z.preprocess((v) => (v === '' || v === null ? undefined : v), z.coerce.date().optional()),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
   }),

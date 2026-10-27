@@ -14,6 +14,9 @@ site_url: https://hsc142857.github.io/blogpilot/
 display_url: https://hsc142857.github.io/blogpilot/
 locale: ko
 
+output:
+  omit_empty_optional_fields: true
+
 media_folder: public/images/uploads
 public_folder: /blogpilot/images/uploads
 
@@ -25,7 +28,8 @@ collections:
     create: true
     delete: true
     slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
-    preview_path: 'posts/{{slug}}/'
+    # Sveltia는 site_url의 도메인만 쓰므로 base 경로(/blogpilot)를 직접 넣는다.
+    preview_path: 'blogpilot/posts/{{slug}}/'
     summary: '{{title}} · {{pubDate}}'
     sortable_fields:
       fields: [pubDate, title]
